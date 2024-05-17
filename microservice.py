@@ -34,9 +34,9 @@ while True:
         if key == "assets":
             assets_array = json_received[key]
 
-    # Convert assets_array to ints
+    # Convert assets_array to floats
     try:
-        int_array = [eval(i) for i in assets_array]
+        float_array = [float(i) for i in assets_array]
     except NameError:
         socket.send(b"Error - JSON is missing parameters.")
 
@@ -53,21 +53,20 @@ while True:
     for i in range(delta.days + 1):
         day = start_date + timedelta(days=i)
         date_array.append(day)
-    print(f"Date Array {date_array}")
 
     # Array of dates for x axis
     x = date_array
 
     # Array of ints for y axis
-    y = int_array
+    y = float_array
 
     try:
-        plt.plot(x, y, 'g')
-        plt.title("Net Assets Over Time", fontsize=20)
-        plt.xlabel("Dates", fontsize=16)
-        plt.ylabel("Net Assets", fontsize=16)
-        #plt.xticks(rotation=70)
-        plt.xticks(rotation=30)
+        plt.plot(x, y, 'b') # Blue line
+        plt.title("Net Assets Over Time", fontsize=20, weight="bold")
+        plt.xlabel("Dates", fontsize=16, weight="bold")
+        plt.ylabel("Net Assets", fontsize=16, weight="bold")
+        plt.xticks(x, rotation=30)
+        #plt.yticks(y) # This will use the values of the float_array as the y-axis
         plt.show()
     except ValueError:
         socket.send(b"Error - Graph did not display.")
