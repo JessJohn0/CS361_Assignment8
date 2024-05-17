@@ -20,6 +20,7 @@ while True:
     json_received = json.loads(received)
     print(f"This is json_received {json_received}")
     print(f"This is received {received}")
+    print("Testing")
 
     #  Do some 'work'
     time.sleep(1)
