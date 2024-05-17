@@ -17,27 +17,28 @@ while True:
     #  Wait for next request from client
     received = socket.recv()
     received = received.decode("utf-8")
-    json_received = json.loads(received)
-    print(f"This is json_received {json_received}")
-    print(f"This is received {received}")
+    try:
+        json_received = json.loads(received)
+    except json.JSONDecodeError:
+        socket.send(b"Error - Invalid JSON.")
 
     #  Do some 'work'
     time.sleep(1)
     for key in json_received:
-        print(f"This is the key: {key}")
-        print(f"This is the value: {json_received[key]}")
+        #print(f"This is the key: {key}")
+        #print(f"This is the value: {json_received[key]}")
         if key == "start":
             start_date = json_received[key]
         if key == "end":
             end_date = json_received[key]
         if key == "assets":
             assets_array = json_received[key]
-            #print(type(assets_array))
-            #print(f"This is assets_array{assets_array}")
 
     # Convert assets_array to ints
-    int_array = [eval(i) for i in assets_array]
-    print(int_array)
+    try:
+        int_array = [eval(i) for i in assets_array]
+    except NameError:
+        socket.send(b"Error - JSON is missing parameters.")
 
     # Finding all dates between two dates
     start_string = start_date
@@ -45,26 +46,31 @@ while True:
     start_date = datetime.datetime.strptime(start_string, '%Y-%m-%d').date()
     end_date = datetime.datetime.strptime(end_string, '%Y-%m-%d').date()
 
-    # Finding all dates between two dates
+    # Finding all dates between two dates and putting them into an array
     delta = end_date - start_date
 
     date_array = []
     for i in range(delta.days + 1):
         day = start_date + timedelta(days=i)
-        print(day)
         date_array.append(day)
-    print(date_array)
+    print(f"Date Array {date_array}")
 
     # Array of dates for x axis
-    dates = date_array
+    x = date_array
 
-    # for y axis
-    #x = [0, 1, 2, 3, 4]
-    x = int_array
+    # Array of ints for y axis
+    y = int_array
 
-    plt.plot(dates, x, 'g')
-    plt.xticks(rotation=70)
-    plt.show()
+    try:
+        plt.plot(x, y, 'g')
+        plt.title("Net Assets Over Time", fontsize=20)
+        plt.xlabel("Dates", fontsize=16)
+        plt.ylabel("Net Assets", fontsize=16)
+        #plt.xticks(rotation=70)
+        plt.xticks(rotation=30)
+        plt.show()
+    except ValueError:
+        socket.send(b"Error - Graph did not display.")
 
     #  Send reply back to client
     socket.send(b"Success")
