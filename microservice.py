@@ -20,11 +20,9 @@ while True:
     json_received = json.loads(received)
     print(f"This is json_received {json_received}")
     print(f"This is received {received}")
-    print("Testing")
 
     #  Do some 'work'
     time.sleep(1)
-
     for key in json_received:
         print(f"This is the key: {key}")
         print(f"This is the value: {json_received[key]}")
@@ -33,7 +31,13 @@ while True:
         if key == "end":
             end_date = json_received[key]
         if key == "assets":
-            print("This is assets")
+            assets_array = json_received[key]
+            #print(type(assets_array))
+            #print(f"This is assets_array{assets_array}")
+
+    # Convert assets_array to ints
+    int_array = [eval(i) for i in assets_array]
+    print(int_array)
 
     # Finding all dates between two dates
     start_string = start_date
@@ -55,7 +59,8 @@ while True:
     dates = date_array
 
     # for y axis
-    x = [0, 1, 2, 3, 4]
+    #x = [0, 1, 2, 3, 4]
+    x = int_array
 
     plt.plot(dates, x, 'g')
     plt.xticks(rotation=70)
