@@ -33,14 +33,15 @@ while True:
             end_date = json_received[key]
         if key == "assets":
             assets_array = json_received[key]
+            print(f"assets+array {assets_array}")
 
     # Convert assets_array to floats
-    try:
-        float_array = [float(i) for i in assets_array]
-    except NameError:
-        socket.send(b"Error - JSON is missing parameters.")
+    #try:
+        #float_array = [float(i) for i in assets_array]
+    #except NameError:
+        #socket.send(b"Error - JSON is missing parameters.")
 
-    # Finding all dates between two dates
+    # Converting strings to dates
     start_string = start_date
     end_string = end_date
     start_date = datetime.datetime.strptime(start_string, '%Y-%m-%d').date()
@@ -58,7 +59,8 @@ while True:
     x = date_array
 
     # Array of ints for y axis
-    y = float_array
+    #y = float_array
+    y = assets_array
 
     try:
         plt.plot(x, y, 'b') # Blue line
