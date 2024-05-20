@@ -25,21 +25,12 @@ while True:
     #  Do some 'work'
     time.sleep(1)
     for key in json_received:
-        #print(f"This is the key: {key}")
-        #print(f"This is the value: {json_received[key]}")
         if key == "start":
             start_date = json_received[key]
         if key == "end":
             end_date = json_received[key]
         if key == "assets":
             assets_array = json_received[key]
-            print(f"assets+array {assets_array}")
-
-    # Convert assets_array to floats
-    #try:
-        #float_array = [float(i) for i in assets_array]
-    #except NameError:
-        #socket.send(b"Error - JSON is missing parameters.")
 
     # Converting strings to dates
     start_string = start_date
@@ -59,7 +50,6 @@ while True:
     x = date_array
 
     # Array of ints for y axis
-    #y = float_array
     y = assets_array
 
     try:
@@ -68,7 +58,6 @@ while True:
         plt.xlabel("Dates", fontsize=16, weight="bold")
         plt.ylabel("Net Assets", fontsize=16, weight="bold")
         plt.xticks(x, rotation=30)
-        #plt.yticks(y) # This will use the values of the float_array as the y-axis
         plt.show()
     except ValueError:
         socket.send(b"Error - Graph did not display.")
