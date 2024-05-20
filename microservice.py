@@ -17,6 +17,7 @@ while True:
     #  Wait for next request from client
     received = socket.recv()
     received = received.decode("utf-8")
+    print("Received reply [ %s ]" % (received))
     try:
         json_received = json.loads(received)
     except json.JSONDecodeError:
