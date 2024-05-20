@@ -14,7 +14,7 @@ Include this in both the main program and the microservice.
 # How to request data from the microservice
 To request data from the microservice, send a JSON object with a start date, end date, and net assets as floats. 
 
-![image](https://github.com/JessJohn0/CS361_Assignment8/assets/129867751/fe395545-24c1-4d27-888a-4bfe1614fbfa)
+![image](https://github.com/JessJohn0/CS361_Assignment8/assets/129867751/9390d4b6-bd7c-4cc5-80d0-554a3563fa4d)
 
 # How to recieve data from the microservice
 A message will be send back from the microservice. Either an error message if something went wrong, or "Success" if the graph was able to be displayed.
